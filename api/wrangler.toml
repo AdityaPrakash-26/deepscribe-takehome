@@ -2,5 +2,4 @@ name = "deepscribe-api"
 main = "llm-service.ts"
 compatibility_date = "2024-09-23"
 
-[vars]
-# NVIDIA_API_KEY = "set via wrangler secret put NVIDIA_API_KEY"
+# Secrets are set via: wrangler secret put NVIDIA_API_KEY
