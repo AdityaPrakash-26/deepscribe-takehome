@@ -40,11 +40,16 @@ export default function TranscriptInput({
     <div className="flex flex-col gap-4">
       <textarea
         className="w-full min-h-105 rounded-xl border border-zinc-200 bg-white px-5 py-4 text-sm leading-relaxed text-zinc-800 placeholder:text-zinc-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 resize-y shadow-sm transition dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
-        placeholder="Paste a doctor-patient transcript here..."
+        placeholder="Paste a doctor-patient transcript here or choose one from the sample present in the navbar"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={isLoading}
       />
+      <p>
+        Note: I am using a free AI endpoint which only allows 2 requests/minute, so please
+        allow some time between submissions. Responses may be slow and may take upto 2 mins for
+        long transcripts (~1000 words)
+      </p>
       <button
         onClick={handleSubmit}
         disabled={isLoading || value.trim().length === 0}
