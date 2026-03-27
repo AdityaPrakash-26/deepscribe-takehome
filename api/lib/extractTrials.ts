@@ -3,103 +3,93 @@ import type { CTApiResponse, CTStudy } from "./types";
 
 const CT_BASE = "https://clinicaltrials.gov/api/v2";
 
-function parseAgeYears(ageStr: string | undefined): number | null {
-  if (!ageStr) return null;
-  const m = ageStr.match(/(\d+)\s*(year|month|week|day)/i);
-  if (!m) return null;
-  const n = parseInt(m[1]);
-  const unit = m[2].toLowerCase();
-  if (unit.startsWith("year")) return n;
-  if (unit.startsWith("month")) return Math.floor(n / 12);
-  if (unit.startsWith("week")) return Math.floor(n / 52);
-  return Math.floor(n / 365);
+// Build all query parameters from the patient profile.
+// - query.cond:        conditions joined with OR (Essie syntax)
+// - query.term:        keywords as quoted OR phrases for broader matching
+// - filter.overallStatus: only recruiting trials
+// - filter.advanced:  age and sex constraints (Essie AREA/RANGE expressions)
+function buildParams(profile: PatientProfile): URLSearchParams {
+  const params = new URLSearchParams();
+  params.set("filter.overallStatus", "RECRUITING");
+
+  if (profile.conditions.length > 0) {
+    params.set("query.cond", profile.conditions.join(" OR "));
+  }
+
+  // Strip bare numbers from keywords (causes Essie parse errors), quote each phrase, join with OR.
+  const keywords = profile.keywords
+    .map((k) => k.split(/\s+/).filter((w) => !/^\d+(\.\d+)?$/.test(w)).join(" ").trim())
+    .filter(Boolean);
+
+  if (keywords.length > 0) {
+    params.set("query.term", keywords.map((k) => `"${k}"`).join(" OR "));
+  }
+
+  const advanced: string[] = [];
+
+  if (profile.age !== null) {
+    advanced.push(
+      `AREA[MinimumAge]RANGE[MIN, ${profile.age} years] AND AREA[MaximumAge]RANGE[${profile.age} years, MAX]`
+    );
+  }
+
+  if (profile.sex === "Male" || profile.sex === "Female") {
+    advanced.push(`(AREA[Sex]ALL OR AREA[Sex]${profile.sex.toUpperCase()})`);
+  }
+
+  if (profile.location) {
+    const { city, state, country } = profile.location;
+    const locParts: string[] = [];
+    if (city) locParts.push(`AREA[LocationCity]"${city}"`);
+    if (state) locParts.push(`AREA[LocationState]"${state}"`);
+    if (country) locParts.push(`AREA[LocationCountry]"${country}"`);
+
+    if (locParts.length === 1) {
+      advanced.push(locParts[0]);
+    } else if (locParts.length > 1) {
+      advanced.push(`SEARCH[Location](${locParts.join(" AND ")})`);
+    }
+  }
+
+  if (advanced.length > 0) {
+    params.set("filter.advanced", advanced.join(" AND "));
+  }
+
+  console.log("Constructed CT.gov query params:", params.toString());
+
+  return params;
 }
 
-async function fetchStudies(params: Record<string, string>): Promise<CTStudy[]> {
-  const query = new URLSearchParams({
-    "filter.overallStatus": "RECRUITING",
-    pageSize: "20",
-    ...params,
-  });
+// Fetch studies from CT.gov and map to ClinicalTrial objects.
+export async function fetchAndFilterTrials(profile: PatientProfile): Promise<ClinicalTrial[]> {
+  const params = buildParams(profile);
 
-  const res = await fetch(`${CT_BASE}/studies?${query}`, {
+  const res = await fetch(`${CT_BASE}/studies?${params}`, {
     headers: { Accept: "application/json" },
   });
 
   if (!res.ok) {
-    console.warn(`CT.gov query failed (${res.status}):`, params);
+    console.warn(`CT.gov request failed (${res.status})`);
     return [];
   }
 
   const data = (await res.json()) as CTApiResponse;
-  return data.studies ?? [];
-}
+  const studies = data.studies ?? [];
 
-function toTrial(study: CTStudy): ClinicalTrial {
-  const id = study.protocolSection.identificationModule.nctId;
-  const locs = study.protocolSection.contactsLocationsModule?.locations ?? [];
-  const locations = [...new Set(
-    locs.map((l) => [l.city, l.country].filter(Boolean).join(", "))
-  )];
-  return {
-    nctId: id,
-    title: study.protocolSection.identificationModule.briefTitle,
-    overallStatus: study.protocolSection.statusModule.overallStatus,
-    conditions: study.protocolSection.conditionsModule?.conditions ?? [],
-    locations,
-    eligibilityCriteria: (study.protocolSection.eligibilityModule?.eligibilityCriteria ?? "").slice(0, 800),
-    url: `https://clinicaltrials.gov/study/${id}`,
-  };
-}
-
-function isEligible(study: CTStudy, profile: PatientProfile): boolean {
-  const em = study.protocolSection.eligibilityModule;
-
-  const trialSex = em?.sex?.toUpperCase();
-  if (trialSex && trialSex !== "ALL" && profile.sex) {
-    if (profile.sex.toUpperCase() !== trialSex) return false;
-  }
-
-  if (profile.age !== null) {
-    const minAge = parseAgeYears(em?.minimumAge);
-    const maxAge = parseAgeYears(em?.maximumAge);
-    if (minAge !== null && profile.age < minAge) return false;
-    if (maxAge !== null && profile.age > maxAge) return false;
-  }
-
-  return true;
-}
-
-// Search by each condition (query.cond) and all keywords combined (query.term),
-// deduplicate by NCT ID, then filter by age/sex eligibility.
-export async function fetchAndFilterTrials(profile: PatientProfile): Promise<ClinicalTrial[]> {
-  const fetches: Promise<CTStudy[]>[] = [];
-
-  for (const cond of profile.conditions) {
-    fetches.push(fetchStudies({ "query.cond": cond }));
-  }
-
-  if (profile.keywords.length > 0) {
-    fetches.push(fetchStudies({ "query.term": profile.keywords.join(" ") }));
-  }
-
-  if (fetches.length === 0) return [];
-
-  const pages = await Promise.allSettled(fetches);
-
-  const seen = new Set<string>();
-  const candidates: CTStudy[] = [];
-
-  for (const settled of pages) {
-    if (settled.status === "rejected") continue;
-    for (const study of settled.value) {
-      const id = study.protocolSection.identificationModule.nctId;
-      if (!seen.has(id)) {
-        seen.add(id);
-        candidates.push(study);
-      }
-    }
-  }
-
-  return candidates.filter((s) => isEligible(s, profile)).map(toTrial);
+  return studies.map((study: CTStudy) => {
+    const id = study.protocolSection.identificationModule.nctId;
+    const locs = study.protocolSection.contactsLocationsModule?.locations ?? [];
+    const locations = [...new Set(
+      locs.map((l) => [l.city, l.country].filter(Boolean).join(", "))
+    )];
+    return {
+      nctId: id,
+      title: study.protocolSection.identificationModule.briefTitle,
+      overallStatus: study.protocolSection.statusModule.overallStatus,
+      conditions: study.protocolSection.conditionsModule?.conditions ?? [],
+      locations,
+      eligibilityCriteria: (study.protocolSection.eligibilityModule?.eligibilityCriteria ?? "").slice(0, 800),
+      url: `https://clinicaltrials.gov/study/${id}`,
+    };
+  });
 }

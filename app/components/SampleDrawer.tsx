@@ -16,6 +16,20 @@ const categoryColors: Record<string, string> = {
     "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
   Oncology:
     "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+  Cardiology:
+    "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
+  Pediatrics:
+    "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
+  Psychiatry:
+    "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
+  Orthopedics:
+    "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+  Dermatology:
+    "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
+  Neurology:
+    "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
+  Obstetrics:
+    "bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300",
 };
 
 export default function SampleDrawer({
