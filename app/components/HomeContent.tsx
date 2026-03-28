@@ -5,13 +5,14 @@ import { FileText } from "lucide-react";
 import type { AnalysisResult } from "@/types/api";
 import TranscriptInput from "./TranscriptInput";
 import SampleDrawer from "./SampleDrawer";
-import ResultsDisplay from "./ResultsDisplay";
+import ResultsDisplay from "./results/ResultsDisplay";
 
 export default function HomeContent() {
   const [transcript, setTranscript] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -40,9 +41,10 @@ export default function HomeContent() {
           onChange={setTranscript}
           onResult={(r) => { setResult(r); setError(null); }}
           onError={(e) => { setError(e); setResult(null); }}
+          onLoadingChange={setIsLoading}
         />
 
-        <ResultsDisplay result={result} error={error} />
+        <ResultsDisplay result={result} error={error} isLoading={isLoading} />
       </main>
 
       <SampleDrawer

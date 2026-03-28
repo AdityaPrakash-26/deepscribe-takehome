@@ -9,40 +9,42 @@ export interface SampleTranscript {
 
 export const sampleTranscripts: SampleTranscript[] = [
   {
-    id: "common-cold",
-    title: "Upper Respiratory Infection",
-    description: "Routine visit for cold symptoms in a young adult",
-    category: "Primary Care",
-    wordCount: "~200 words",
-    transcript: `Doctor: Good morning. What brings you in today?
+    id: "cap-hospitalization",
+    title: "Community-Acquired Pneumonia — Hospital Admission",
+    description: "Infectious disease consult for a hospitalized adult with radiographically confirmed bacterial pneumonia requiring IV antibiotics",
+    category: "Infectious Disease",
+    wordCount: "~350 words",
+    transcript: `Doctor: Mr. Hoffmann, I'm Dr. Santos from the infectious disease team. The admitting team asked me to consult on your pneumonia. Can you tell me when you first started feeling unwell?
 
-Patient: Hi, I've been feeling pretty rough for the past three days. Sore throat, runny nose, and I had a low fever yesterday.
+Patient: About four days ago. Started with chills and a high fever. Then the cough came — I've been coughing up thick yellowish-green sputum and it's gotten worse every day.
 
-Doctor: I'm sorry to hear that. Any cough or difficulty breathing?
+Doctor: Any shortness of breath?
 
-Patient: A little bit of a cough, but nothing bad. Breathing is fine.
+Patient: Yes, I'm breathless just walking to the bathroom. That started two days ago.
 
-Doctor: Any recent travel or exposure to sick contacts?
+Doctor: Your temperature on admission was 38.9 degrees Celsius, oxygen saturation 91% on room air. The chest X-ray shows consolidation in the right lower lobe — consistent with bacterial pneumonia. Your white cell count is 18,200 with a left shift and CRP is 142. Blood cultures are pending.
 
-Patient: No travel. My six-year-old was sick last week, so probably caught it from her.
+Patient: Is this serious?
 
-Doctor: That makes sense. Let me take a look. Can you open your mouth wide for me? Say "ahh."
+Doctor: It is. You're too hypoxic to manage at home — you need intravenous antibiotics and supplemental oxygen. I'm starting you on IV ceftriaxone 1 gram daily plus IV azithromycin 500 milligrams to cover both typical and atypical organisms. Any allergies to penicillins or cephalosporins?
 
-Patient: Ahh.
+Patient: No drug allergies.
 
-Doctor: I see some mild redness in the throat, but no pus or significant swelling. Ears look clear. Lungs sound good — nice and clear. No lymph node swelling.
+Doctor: Good. I want to confirm — are you currently enrolled in any other clinical research study or interventional trial?
 
-Patient: That's a relief. Do I need antibiotics?
+Patient: No, nothing like that.
 
-Doctor: No, this looks like a straightforward viral upper respiratory infection — essentially a common cold. Antibiotics won't help with a virus. I'd recommend rest, plenty of fluids, and over-the-counter acetaminophen or ibuprofen for the fever and sore throat.
+Doctor: Your background history shows hypertension and type 2 diabetes. Current medications are metformin 1000mg daily and lisinopril 10mg daily. Any hospitalization in the past 90 days?
 
-Patient: How long will this last?
+Patient: No, first time in years.
 
-Doctor: Typically seven to ten days. Come back or call us if your fever goes above 102°F, symptoms worsen significantly, or you develop ear pain or a severe headache.
+Doctor: We'll repeat your chest X-ray at 48 hours to assess response. If cultures grow a resistant organism we'll adjust. For now: supplemental oxygen at 2 liters, strict fluid balance, and enoxaparin for DVT prophylaxis. We hold the metformin while you're inpatient.
 
-Patient: Got it. Thank you.
+Patient: How long will I be here?
 
-Doctor: Take care. Feel better soon.`,
+Doctor: Most patients with this severity of community-acquired pneumonia need four to six days of IV antibiotics before we can consider switching to oral and discharging. We'll reassess daily based on your response. Any questions?
+
+Patient: No. Thank you, doctor.`,
   },
   {
     id: "diabetes-management",
@@ -205,44 +207,42 @@ Parent: Got it. Thank you.
 Doctor: She's doing wonderfully. We'll see her again at five for her kindergarten checkup.`,
   },
   {
-    id: "knee-pain-orthopedics",
-    title: "Knee Pain — Meniscus Evaluation",
-    description: "Orthopedic consultation for medial knee pain with suspected meniscal tear",
-    category: "Orthopedics",
-    wordCount: "~350 words",
-    transcript: `Doctor: Hi, I'm Dr. Nguyen. I understand you're having some knee trouble?
+    id: "csssi-diabetic-foot",
+    title: "Diabetic Foot Cellulitis — Hospital Admission",
+    description: "Infectious disease consult for a hospitalized diabetic patient with complicated lower limb skin and soft tissue infection requiring IV antibiotics",
+    category: "Infectious Disease",
+    wordCount: "~380 words",
+    transcript: `Doctor: Ms. Brennan, I'm Dr. Adeyemi from infectious disease. I've been asked to review your left leg. Can you tell me how this started?
 
-Patient: Yes, my left knee. I hurt it playing recreational soccer about three weeks ago. I planted my foot and twisted, and I heard a pop.
+Patient: About a week ago I noticed some redness on my left shin. I've had type 2 diabetes for fifteen years and my feet and legs have had problems before. I thought it would settle down but it got much worse. My leg is swollen, hot to the touch, and there's been discharge from a wound on my ankle.
 
-Doctor: That sound is always concerning. Was there immediate swelling?
+Doctor: How long have you had the ankle wound?
 
-Patient: Within a few hours, yes. It's gone down a lot, but it's still puffy.
+Patient: Maybe three weeks. Started as a small blister. I didn't feel much pain because of my neuropathy.
 
-Doctor: Any locking or clicking sensations — where the knee feels like it's getting stuck?
+Doctor: Any fever or chills?
 
-Patient: Yes, exactly. It catches sometimes when I go down stairs. And I can't fully straighten it.
+Patient: Yes, I had a temperature of 38.4 this morning and I've been shivering on and off since yesterday.
 
-Doctor: Any instability — a feeling like the knee might give way?
+Doctor: Let me examine you. [Pause] There's significant erythema extending from mid-shin to the foot, marked swelling, warmth, and a 2-centimeter ulcer on the medial malleolus with purulent discharge. I'm probing the wound — I can feel what appears to be deeper soft tissue involvement beyond the skin layer. I'm sending swabs for culture and MRSA screening now. We'll need an MRI to assess the depth of infection and rule out osteomyelitis.
 
-Patient: A little bit, yes.
+Patient: Could it be in the bone?
 
-Doctor: Let me examine you. Can you lie back for me? I'm going to flex and internally rotate the knee — tell me if this reproduces your pain.
+Doctor: We need to rule that out — that's why we're doing the MRI today. I'm admitting you and starting IV vancomycin for MRSA coverage, plus IV piperacillin-tazobactam for broader gram-negative cover. We're also getting vascular surgery and the wound care team involved — you'll need bedside debridement of that wound today.
 
-Patient: Ow — yes, right there. That's the spot.
+Patient: Am I going to lose my leg?
 
-Doctor: McMurray's test is positive on the medial side. I'm also getting a positive Thessaly's test. Combined with your history — the twisting mechanism, the pop, joint line tenderness here on the medial side, and the mechanical symptoms — I have a high clinical suspicion for a medial meniscal tear.
+Doctor: We're going to do everything we can to prevent that. Getting you on IV antibiotics promptly and managing this wound properly is critical. Any drug allergies?
 
-Patient: Do I need surgery?
+Patient: No allergies. I take metformin 500mg twice daily, lisinopril 5mg, and atorvastatin 20mg.
 
-Doctor: Not necessarily, and not right away. I'm ordering an MRI to confirm the diagnosis and characterize the tear. Treatment depends on the type and location. Some tears, particularly peripheral tears with good blood supply, can heal with physical therapy and activity modification. Others — especially complex or bucket-handle tears causing locking — may benefit from arthroscopic surgery.
+Doctor: We'll hold the metformin while you're inpatient. Are you currently enrolled in any other research study?
 
-Patient: How long until I can play soccer again?
+Patient: No.
 
-Doctor: That depends on the path we take. Conservative treatment typically means six to eight weeks minimum. Surgical repair, if needed, is generally three to six months. Let's get the MRI first and then have an informed conversation.
+Doctor: Good. We'll review labs daily and adjust antibiotics based on culture results. Likely five to seven days inpatient depending on MRI findings and your response. Any questions?
 
-Patient: That makes sense. Can I still walk around in the meantime?
-
-Doctor: Yes, stay as active as pain allows, avoid twisting movements, and ice it for twenty minutes a few times a day. I'll prescribe a short course of anti-inflammatories as well. We'll get the MRI scheduled this week.`,
+Patient: Just — please do whatever it takes. Thank you.`,
   },
   {
     id: "skin-lesion-dermatology",

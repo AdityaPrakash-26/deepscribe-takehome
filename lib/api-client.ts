@@ -13,12 +13,14 @@ export async function analyzeTranscript(
     body: JSON.stringify(body),
   });
 
+  const json = await res.json().catch(() => null);
+
   if (!res.ok) {
-    return {
-      success: false,
-      error: `Server error: ${res.status} ${res.statusText}`,
-    };
+    const message =
+      (json as { error?: string } | null)?.error ??
+      `Server error: ${res.status} ${res.statusText}`;
+    return { success: false, error: message };
   }
 
-  return res.json();
+  return json as ApiResponse<AnalysisResult>;
 }

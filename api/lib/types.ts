@@ -34,6 +34,9 @@ export interface CTStudy {
       maximumAge?: string;
       sex?: string; // "MALE" | "FEMALE" | "ALL"
       healthyVolunteers?: boolean;
+      stdAges?: string[];
+      studyPopulation?: string;
+      samplingMethod?: string;
     };
     contactsLocationsModule?: {
       locations?: CTLocation[];

@@ -3,8 +3,9 @@
 // npx wrangler deploy
 
 import type { AnalysisResult, ApiResponse, TranscriptRequest } from "../types/api";
-import { extractPatientProfile } from "./lib/extractConditions";
+import { extractPatientProfile } from "./lib/extractPatientProfile";
 import { fetchAndFilterTrials } from "./lib/extractTrials";
+import { screenEligibility } from "./lib/screenEligibility";
 
 export interface Env {
     NVIDIA_API_KEY: string;
@@ -39,12 +40,19 @@ const handler = {
                 const patientProfile = await extractPatientProfile(body.transcript, env.NVIDIA_API_KEY);
 
                 // Stage 2: fetch and filter trials from ClinicalTrials.gov
-                const recommendedTrials = await fetchAndFilterTrials(patientProfile);
+                const rawTrials = await fetchAndFilterTrials(patientProfile);
+
+                // Stage 3: deterministic pre-filter + LLM eligibility screening
+                const { trials: recommendedTrials, completed, screeningError } = await screenEligibility(
+                    patientProfile, rawTrials, env.NVIDIA_API_KEY
+                );
 
                 const data: AnalysisResult = {
                     patientProfile,
                     recommendedTrials,
                     analysisTimestamp: new Date().toISOString(),
+                    screeningCompleted: completed,
+                    screeningError,
                 };
 
                 return Response.json(

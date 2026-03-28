@@ -12,12 +12,13 @@ function buildParams(profile: PatientProfile): URLSearchParams {
   const params = new URLSearchParams();
   params.set("filter.overallStatus", "RECRUITING");
 
-  if (profile.conditions.length > 0) {
-    params.set("query.cond", profile.conditions.join(" OR "));
+  if (profile.diagnoses.length > 0) {
+    params.set("query.cond", profile.diagnoses.join(" OR "));
   }
 
-  // Strip bare numbers from keywords (causes Essie parse errors), quote each phrase, join with OR.
-  const keywords = profile.keywords
+  // Combine symptoms, biomarkers, and medications as keyword search terms.
+  // Strip bare numbers (causes Essie parse errors), quote each phrase, join with OR.
+  const keywords = [...profile.symptoms, ...profile.biomarkers, ...profile.medications]
     .map((k) => k.split(/\s+/).filter((w) => !/^\d+(\.\d+)?$/.test(w)).join(" ").trim())
     .filter(Boolean);
 
@@ -82,14 +83,21 @@ export async function fetchAndFilterTrials(profile: PatientProfile): Promise<Cli
     const locations = [...new Set(
       locs.map((l) => [l.city, l.country].filter(Boolean).join(", "))
     )];
+    const elig = study.protocolSection.eligibilityModule;
     return {
       nctId: id,
       title: study.protocolSection.identificationModule.briefTitle,
       overallStatus: study.protocolSection.statusModule.overallStatus,
       conditions: study.protocolSection.conditionsModule?.conditions ?? [],
       locations,
-      eligibilityCriteria: (study.protocolSection.eligibilityModule?.eligibilityCriteria ?? "").slice(0, 800),
+      eligibilityCriteria: elig?.eligibilityCriteria ?? "",
       url: `https://clinicaltrials.gov/study/${id}`,
+      minimumAge: elig?.minimumAge ?? null,
+      maximumAge: elig?.maximumAge ?? null,
+      acceptedSex: elig?.sex ?? null,
+      healthyVolunteers: elig?.healthyVolunteers ?? false,
+      stdAges: elig?.stdAges ?? [],
+      eligibility: null,
     };
   });
 }
