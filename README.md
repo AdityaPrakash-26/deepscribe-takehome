@@ -79,3 +79,6 @@ I added in a loading bar that loads faster early and then slows down near the en
 **Model speed up**
 
 Requests used to take ~2 mins. Cut it down to 30s on average by switching to a faster model.
+
+** Assumptions and Limitations**
+- Inclusion criteria is always defined before exclusion criteria.

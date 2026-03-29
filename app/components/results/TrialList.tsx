@@ -2,23 +2,21 @@
 
 import { useState } from "react";
 import { Info } from "lucide-react";
-import type { AnalysisResult, ClinicalTrial, EligibilityStatus } from "@/types/api";
+import type { AnalysisResult, ScreenedTrial } from "@/types/api";
 import TrialCard, { ELIGIBILITY_CONFIG } from "./TrialCard";
 
-type FilterMode = "all" | "eligible" | "eligible_potential";
+type FilterMode = "all" | "eligible" | "ineligible";
 
 const FILTER_OPTIONS: { value: FilterMode; label: string }[] = [
-  { value: "all",                label: "All" },
-  { value: "eligible_potential", label: "Eligible + Potential" },
-  { value: "eligible",           label: "Eligible Only" },
+  { value: "all", label: "All" },
+  { value: "eligible", label: "Eligible" },
+  { value: "ineligible", label: "Ineligible" },
 ];
 
-function filterTrials(trials: ClinicalTrial[], mode: FilterMode): ClinicalTrial[] {
-  if (mode === "all") return trials;
-  if (mode === "eligible") return trials.filter((t) => t.eligibility?.status === "eligible");
-  return trials.filter(
-    (t) => t.eligibility?.status === "eligible" || t.eligibility?.status === "potentially_eligible"
-  );
+function filterTrials(trials: ScreenedTrial[], mode: FilterMode): ScreenedTrial[] {
+  if (mode === "eligible") return trials.filter((trial) => trial.eligibility?.final_eligibility);
+  if (mode === "ineligible") return trials.filter((trial) => trial.eligibility && !trial.eligibility.final_eligibility);
+  return trials;
 }
 
 export default function TrialList({ result }: { result: AnalysisResult }) {
@@ -32,7 +30,7 @@ export default function TrialList({ result }: { result: AnalysisResult }) {
           Clinical Trial Matches
         </h4>
         <span className="text-xs text-zinc-400">
-          {result.recommendedTrials.length} results · analyzed{" "}
+          {result.recommendedTrials.length} results | analyzed{" "}
           {new Date(result.analysisTimestamp).toLocaleTimeString()}
         </span>
       </div>
@@ -41,7 +39,8 @@ export default function TrialList({ result }: { result: AnalysisResult }) {
         <div className="mb-3 flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-800/40 dark:bg-amber-900/20">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
           <p className="text-xs text-amber-700 dark:text-amber-400">
-            {result.screeningError ?? "Eligibility screening was unavailable. Trials are shown without assessment."}
+            {result.screeningError ??
+              "Eligibility screening was unavailable. Trials are shown without assessment."}
           </p>
         </div>
       )}
@@ -63,11 +62,16 @@ export default function TrialList({ result }: { result: AnalysisResult }) {
               </button>
             ))}
           </div>
+
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            {(Object.entries(ELIGIBILITY_CONFIG) as [EligibilityStatus, typeof ELIGIBILITY_CONFIG[EligibilityStatus]][]).map(([, cfg]) => (
-              <span key={cfg.label} className="flex items-center gap-1.5 text-xs text-zinc-400">
-                <span className={`inline-block rounded-full px-1.5 py-0.5 text-xs font-medium ${cfg.badge}`}>{cfg.label}</span>
-                <span>{cfg.description}</span>
+            {Object.values(ELIGIBILITY_CONFIG).map((config) => (
+              <span key={config.label} className="flex items-center gap-1.5 text-xs text-zinc-400">
+                <span
+                  className={`inline-block rounded-full px-1.5 py-0.5 text-xs font-medium ${config.badge}`}
+                >
+                  {config.label}
+                </span>
+                <span>{config.description}</span>
               </span>
             ))}
           </div>

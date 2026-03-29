@@ -1,4 +1,6 @@
-// Internal types for the ClinicalTrials.gov v2 API response.
+import type { FetchedTrial } from "../../types/api";
+
+// Internal types for the ClinicalTrials.gov v2 API response and screening helpers.
 // Only fields we actually use are typed; everything else is unknown.
 
 export interface CTLocation {
@@ -21,6 +23,9 @@ export interface CTStudy {
     };
     statusModule: {
       overallStatus: string;
+    };
+    descriptionModule?: {
+      briefSummary?: string;
     };
     conditionsModule?: {
       conditions?: string[];
@@ -48,4 +53,22 @@ export interface CTApiResponse {
   studies?: CTStudy[];
   nextPageToken?: string;
   totalCount?: number;
+}
+
+export interface ParsedTrialCriteria {
+  trial: FetchedTrial;
+  inclusionCriteria: string[];
+  exclusionCriteria: string[];
+}
+
+export interface ParsedCriteria {
+  inclusionCriteria: string[];
+  exclusionCriteria: string[];
+  criteriaParsedSuccessfully: boolean;
+}
+
+export interface LlmScreeningResult {
+  trial_id?: string;
+  inclusion_results?: boolean[];
+  exclusion_results?: boolean[];
 }

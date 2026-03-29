@@ -1,13 +1,9 @@
-import type { ClinicalTrial, PatientProfile } from "../../types/api";
+import type { FetchedTrial, PatientProfile } from "../../types/api";
 import type { CTApiResponse, CTStudy } from "./types";
+import { buildKeywordTerms } from "./utils";
 
 const CT_BASE = "https://clinicaltrials.gov/api/v2";
 
-// Build all query parameters from the patient profile.
-// - query.cond:        conditions joined with OR (Essie syntax)
-// - query.term:        keywords as quoted OR phrases for broader matching
-// - filter.overallStatus: only recruiting trials
-// - filter.advanced:  age and sex constraints (Essie AREA/RANGE expressions)
 function buildParams(profile: PatientProfile): URLSearchParams {
   const params = new URLSearchParams();
   params.set("filter.overallStatus", "RECRUITING");
@@ -16,14 +12,9 @@ function buildParams(profile: PatientProfile): URLSearchParams {
     params.set("query.cond", profile.diagnoses.join(" OR "));
   }
 
-  // Combine symptoms, biomarkers, and medications as keyword search terms.
-  // Strip bare numbers (causes Essie parse errors), quote each phrase, join with OR.
-  const keywords = [...profile.symptoms, ...profile.biomarkers, ...profile.medications]
-    .map((k) => k.split(/\s+/).filter((w) => !/^\d+(\.\d+)?$/.test(w)).join(" ").trim())
-    .filter(Boolean);
-
+  const keywords = buildKeywordTerms(profile);
   if (keywords.length > 0) {
-    params.set("query.term", keywords.map((k) => `"${k}"`).join(" OR "));
+    params.set("query.term", keywords.map((keyword) => `"${keyword}"`).join(" OR "));
   }
 
   const advanced: string[] = [];
@@ -57,12 +48,10 @@ function buildParams(profile: PatientProfile): URLSearchParams {
   }
 
   console.log("Constructed CT.gov query params:", params.toString());
-
   return params;
 }
 
-// Fetch studies from CT.gov and map to ClinicalTrial objects.
-export async function fetchAndFilterTrials(profile: PatientProfile): Promise<ClinicalTrial[]> {
+export async function fetchAndFilterTrials(profile: PatientProfile): Promise<FetchedTrial[]> {
   const params = buildParams(profile);
 
   const res = await fetch(`${CT_BASE}/studies?${params}`, {
@@ -81,12 +70,14 @@ export async function fetchAndFilterTrials(profile: PatientProfile): Promise<Cli
     const id = study.protocolSection.identificationModule.nctId;
     const locs = study.protocolSection.contactsLocationsModule?.locations ?? [];
     const locations = [...new Set(
-      locs.map((l) => [l.city, l.country].filter(Boolean).join(", "))
+      locs.map((location) => [location.city, location.country].filter(Boolean).join(", "))
     )];
     const elig = study.protocolSection.eligibilityModule;
+
     return {
       nctId: id,
       title: study.protocolSection.identificationModule.briefTitle,
+      briefSummary: study.protocolSection.descriptionModule?.briefSummary ?? "",
       overallStatus: study.protocolSection.statusModule.overallStatus,
       conditions: study.protocolSection.conditionsModule?.conditions ?? [],
       locations,
@@ -97,7 +88,6 @@ export async function fetchAndFilterTrials(profile: PatientProfile): Promise<Cli
       acceptedSex: elig?.sex ?? null,
       healthyVolunteers: elig?.healthyVolunteers ?? false,
       stdAges: elig?.stdAges ?? [],
-      eligibility: null,
     };
   });
 }

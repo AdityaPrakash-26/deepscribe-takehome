@@ -44,7 +44,7 @@ const handler = {
 
                 // Stage 3: deterministic pre-filter + LLM eligibility screening
                 const { trials: recommendedTrials, completed, screeningError } = await screenEligibility(
-                    patientProfile, rawTrials, env.NVIDIA_API_KEY
+                    body.transcript, rawTrials, env.NVIDIA_API_KEY
                 );
 
                 const data: AnalysisResult = {

@@ -5,28 +5,30 @@ export interface TranscriptRequest {
 export interface PatientProfile {
   age: number | null;
   sex: "Male" | "Female" | "Other" | null;
-  pregnancyStatus: "pregnant" | "not pregnant" | null;
   diagnoses: string[];
   symptoms: string[];
   medications: string[];
   biomarkers: string[];
-  priorTherapies: string[];
-  comorbidities: string[];
   location: { city: string | null; state: string | null; country: string | null } | null;
 }
 
-export type EligibilityStatus = "eligible" | "potentially_eligible" | "likely_ineligible";
-
-export interface EligibilityAssessment {
-  status: EligibilityStatus;
-  reason: string;
-  matchedCriteria: string[];
-  concerns: string[];
+export interface CriterionResult {
+  criterion: string;
+  result: boolean;
 }
 
-export interface ClinicalTrial {
+export interface EligibilityAssessment {
+  trial_id: string;
+  inclusion_results: CriterionResult[];
+  exclusion_results: CriterionResult[];
+  final_eligibility: boolean;
+  criteria_parsed: boolean;
+}
+
+export interface TrialSummary {
   nctId: string;
   title: string;
+  briefSummary: string;
   overallStatus: string;
   conditions: string[];
   locations: string[];
@@ -37,12 +39,17 @@ export interface ClinicalTrial {
   acceptedSex: string | null;
   healthyVolunteers: boolean;
   stdAges: string[];
+}
+
+export type FetchedTrial = TrialSummary;
+
+export interface ScreenedTrial extends TrialSummary {
   eligibility: EligibilityAssessment | null;
 }
 
 export interface AnalysisResult {
   patientProfile: PatientProfile;
-  recommendedTrials: ClinicalTrial[];
+  recommendedTrials: ScreenedTrial[];
   analysisTimestamp: string;
   screeningCompleted: boolean;
   screeningError: string | null;

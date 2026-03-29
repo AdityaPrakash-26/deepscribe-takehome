@@ -1,16 +1,15 @@
 import type { PatientProfile } from "@/types/api";
 
 const CHIP_COLORS = {
-  diagnoses:      "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  symptoms:       "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
-  medications:    "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-  comorbidities:  "bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
-  biomarkers:     "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-  priorTherapies: "bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+  diagnoses: "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+  symptoms: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
+  medications: "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+  biomarkers: "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
 };
 
 function ChipList({ items, color }: { items: string[]; color: string }) {
   if (items.length === 0) return <span className="text-xs text-zinc-400">None stated</span>;
+
   return (
     <div className="flex flex-wrap gap-1.5">
       {items.map((item) => (
@@ -33,9 +32,8 @@ function ProfileField({ label, children }: { label: string; children: React.Reac
 
 export default function PatientProfileCard({ profile }: { profile: PatientProfile }) {
   const demographicParts = [
-    profile.age ? `${profile.age} yo` : null,
+    profile.age !== null ? `${profile.age} yo` : null,
     profile.sex,
-    profile.pregnancyStatus,
     profile.location
       ? [profile.location.city, profile.location.state, profile.location.country]
           .filter(Boolean)
@@ -43,7 +41,7 @@ export default function PatientProfileCard({ profile }: { profile: PatientProfil
       : null,
   ]
     .filter(Boolean)
-    .join(" · ");
+    .join(" | ");
 
   return (
     <div className="rounded-xl border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-800/40">
@@ -65,12 +63,6 @@ export default function PatientProfileCard({ profile }: { profile: PatientProfil
           </ProfileField>
         )}
 
-        {profile.comorbidities.length > 0 && (
-          <ProfileField label="Comorbidities">
-            <ChipList items={profile.comorbidities} color={CHIP_COLORS.comorbidities} />
-          </ProfileField>
-        )}
-
         {profile.medications.length > 0 && (
           <ProfileField label="Medications">
             <ChipList items={profile.medications} color={CHIP_COLORS.medications} />
@@ -82,14 +74,6 @@ export default function PatientProfileCard({ profile }: { profile: PatientProfil
             <ChipList items={profile.biomarkers} color={CHIP_COLORS.biomarkers} />
           </ProfileField>
         )}
-
-        {profile.priorTherapies.length > 0 && (
-          <ProfileField label="Prior Therapies">
-            <ChipList items={profile.priorTherapies} color={CHIP_COLORS.priorTherapies} />
-          </ProfileField>
-        )}
-
-
       </div>
     </div>
   );
