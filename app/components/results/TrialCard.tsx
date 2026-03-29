@@ -135,9 +135,6 @@ export default function TrialCard({ trial }: { trial: ScreenedTrial }) {
           {trial.title}
         </a>
         <div className="flex shrink-0 flex-col items-end gap-1">
-          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
-            {trial.overallStatus}
-          </span>
           {displayConfig && (
             <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${displayConfig.badge}`}>
               {displayConfig.label}

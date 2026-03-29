@@ -39,6 +39,10 @@ export default function HomeContent() {
         <TranscriptInput
           value={transcript}
           onChange={setTranscript}
+          onSubmitStart={() => {
+            setResult(null);
+            setError(null);
+          }}
           onResult={(r) => { setResult(r); setError(null); }}
           onError={(e) => { setError(e); setResult(null); }}
           onLoadingChange={setIsLoading}

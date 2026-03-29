@@ -80,5 +80,6 @@ I added in a loading bar that loads faster early and then slows down near the en
 
 Requests used to take ~2 mins. Cut it down to 30s on average by switching to a faster model.
 
-** Assumptions and Limitations**
+**Assumptions and Limitations**
 - Inclusion criteria is always defined before exclusion criteria.
+- Due to small size of compute, I am only fetching 1 page (which has at most 10 trials) of results from the clinicaltrials.gov API. In a production system, I would want to fetch more results and implement pagination.

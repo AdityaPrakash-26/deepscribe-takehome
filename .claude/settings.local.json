@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:clinicaltrials.gov)"
+      "WebFetch(domain:clinicaltrials.gov)",
+      "Bash(curl -s \"https://clinicaltrials.gov/api/v2/studies?filter.overallStatus=RECRUITING&query.cond=hypertension+OR+hyperlipidemia+OR+acute+coronary+syndrome&query.term=%22chest+pain%22+OR+%22dyspnea%22+OR+%22exertional+angina%22+OR+%22elevated+troponin%22+OR+%22aspirin%22+OR+%22lisinopril%22+OR+%22atorvastatin%22&filter.advanced=AREA%5BMinimumAge%5DRANGE%5BMIN%2C+54+years%5D+AND+AREA%5BMaximumAge%5DRANGE%5B54+years%2C+MAX%5D+AND+%28AREA%5BSex%5DALL+OR+AREA%5BSex%5DFEMALE%29+AND+AREA%5BLocationCity%5D%22Houston%22&countTotal=true&pageSize=1\" -H \"Accept: application/json\")",
+      "Bash(node -e \"let d='''''''';process.stdin.on\\(''''data'''',c=>d+=c\\);process.stdin.on\\(''''end'''',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\(''''Total:'''',j.totalCount,''''Studies:'''',j.studies?.length\\)}\\)\")"
     ]
   }
 }

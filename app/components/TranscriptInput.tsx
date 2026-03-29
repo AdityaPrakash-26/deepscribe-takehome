@@ -27,6 +27,7 @@ const FACTS = [
 interface TranscriptInputProps {
   value: string;
   onChange: (value: string) => void;
+  onSubmitStart?: () => void;
   onResult: (result: AnalysisResult) => void;
   onError: (error: string) => void;
   onLoadingChange?: (loading: boolean) => void;
@@ -35,6 +36,7 @@ interface TranscriptInputProps {
 export default function TranscriptInput({
   value,
   onChange,
+  onSubmitStart,
   onResult,
   onError,
   onLoadingChange,
@@ -103,6 +105,7 @@ export default function TranscriptInput({
     setStage(STAGES[0].label);
     setFactIndex(0);
     setFactOpacity(1);
+    onSubmitStart?.();
     setLoadingState(true);
 
     let response;

@@ -125,147 +125,67 @@ Patient: No other questions. Thank you, doctor.
 Doctor: We'll get through this together. See you in eight weeks.`,
   },
   {
-    id: "chest-pain-cardiology",
-    title: "Chest Pain Evaluation",
-    description: "Cardiology workup for a middle-aged patient presenting with exertional chest pain",
+    id: "heart-failure-cardiology",
+    title: "Heart Failure Follow-up with Worsening Symptoms",
+    description: "Cardiology follow-up for a 62-year-old male with heart failure and coronary artery disease presenting with worsening dyspnea and fatigue",
     category: "Cardiology",
-    wordCount: "~450 words",
-    transcript: `Doctor: Good afternoon, Ms. Rivera. I'm Dr. Okafor, your cardiologist. Your primary care physician referred you for chest pain. Can you tell me more about what you've been experiencing?
+    wordCount: "~650 words",
+    transcript: `Doctor: Good morning, Mr. Garza. I'm Dr. Okafor, your cardiologist. How have you been since your hospitalization two months ago?
 
-Patient: Sure. About three weeks ago I started getting this pressure in my chest when I climb stairs or walk fast. It goes away when I stop and rest.
+Patient: Honestly, not great. I was doing okay for a few weeks after discharge, but things have been getting worse again over the past three weeks.
 
-Doctor: Can you describe the pressure — is it sharp, dull, tight?
+Doctor: Tell me what's been happening.
 
-Patient: Tight, like something is squeezing. It sometimes radiates into my left shoulder.
+Patient: The dyspnea is back. I get winded walking from my bedroom to the kitchen. I used to be able to walk a full block before I had to stop. And the fatigue — I'm exhausted by noon even if I haven't done anything.
 
-Doctor: How long does it last?
+Doctor: Are you having any chest pain?
 
-Patient: Maybe two or three minutes. Then it just fades.
+Patient: Some, yes. A dull ache in my chest when I try to exert myself. It goes away when I sit down.
 
-Doctor: Any shortness of breath, sweating, or nausea with the episodes?
+Doctor: Any swelling in your legs or ankles?
 
-Patient: Yes, I get a little short of breath. No nausea, but I do feel kind of clammy.
+Patient: My ankles have been puffy for about a week. My shoes are tight by the end of the day.
 
-Doctor: Has this ever happened at rest?
+Doctor: Are you sleeping flat, or do you need pillows to prop yourself up?
 
-Patient: Once, last week, when I woke up in the middle of the night. That scared me.
+Patient: I've been using three pillows. If I try to lie flat I feel like I can't breathe. A couple of nights I woke up gasping, had to sit up on the edge of the bed.
 
-Doctor: That's important information. Any family history of heart disease?
+Doctor: That's orthopnea and paroxysmal nocturnal dyspnea — both signs that fluid is backing up. Let me review your history. You're 62 years old. You were diagnosed with coronary artery disease four years ago after a cardiac catheterization showed two-vessel disease. You had a stent placed in the left anterior descending artery at that time. Then last year you were diagnosed with heart failure after an echocardiogram showed your ejection fraction had dropped to 35%.
 
-Patient: My father had a heart attack at 58. I'm 54.
+Patient: That's right. It was 35% at the last echo too, about four months ago.
 
-Doctor: And do you have high blood pressure, diabetes, or high cholesterol?
+Doctor: And your medical history also includes hypertension and type 2 diabetes, correct?
 
-Patient: High blood pressure and cholesterol. I'm on lisinopril and atorvastatin.
+Patient: Yes. The diabetes has been stable — my last A1C was 7.2%. Blood pressure has been running higher lately though, around 145 over 90 at home.
 
-Doctor: Do you smoke?
+Doctor: Let me go over your current medications. You're on carvedilol 25 milligrams twice daily, sacubitril-valsartan 97/103 milligrams twice daily, spironolactone 25 milligrams daily, and furosemide 40 milligrams daily as your diuretic. Also metformin for the diabetes and aspirin 81 milligrams daily. Is that all correct?
 
-Patient: I quit seven years ago. Smoked for about 15 years before that.
+Patient: Yes, I take everything as prescribed. I haven't missed doses.
 
-Doctor: Let me review your EKG from today. I see some ST-segment changes that concern me. Your resting EKG is not completely normal. Combined with your symptoms — exertional chest pressure radiating to the shoulder, relieved by rest, now occurring at rest — I'm very concerned about unstable angina.
+Doctor: Good. Any dizziness, lightheadedness, or fainting?
 
-Patient: Is that serious?
+Patient: No, nothing like that.
 
-Doctor: It can be. It means your heart may not be getting enough blood flow, potentially from a narrowed artery. I want to act on this quickly. I'm going to admit you to the hospital today for monitoring and further workup. We'll do a stress test and likely a coronary angiogram — a procedure where we inject dye into the heart arteries to see if there are any blockages.
+Doctor: Let me examine you. [Pause] I'm hearing crackles in both lung bases — that's fluid. Your jugular venous pressure is elevated. There's pitting edema in both ankles, about 2 centimeters. Heart sounds show a third heart sound, an S3 gallop, which is consistent with volume overload. Your blood pressure today is 142 over 88.
 
-Patient: Will I need surgery?
+Patient: That doesn't sound good.
 
-Doctor: I don't want to get ahead of ourselves, but if we find a significant blockage, options include a stent — a small device we can place during the angiogram — or in some cases bypass surgery. But let's first get the imaging.
+Doctor: Let's look at today's labs. Your BNP is 850 — that's significantly elevated and confirms your heart failure is not well controlled right now. Your kidney function and electrolytes are stable, which is reassuring. Your weight is up 4 kilograms from your last visit, which lines up with fluid retention.
 
-Patient: Okay. I'm frightened but I understand.
+Patient: So what do we do?
 
-Doctor: You did exactly the right thing coming in. We'll take good care of you. Do you have someone who can meet you here?
+Doctor: First, I want to increase your diuretic. We'll go from furosemide 40 to 80 milligrams daily to help clear the extra fluid. I'd like you to weigh yourself every morning and call us if you gain more than 1.5 kilograms in a day. I'm also ordering a repeat echocardiogram to reassess your ejection fraction and see if there's been any further decline. Based on your NYHA classification, you've gone from class II to class III — meaningful physical limitation from your heart failure symptoms.
 
-Patient: Yes, I'll call my husband right now. We're in Houston so he can be here within the hour.
+Patient: Is there anything else we can try? I feel like I'm on a lot of medications already and things are still getting worse.
 
-Doctor: Good. The admitting team will be here shortly. We'll talk again once you're settled.`,
-  },
-  {
-    id: "pediatric-well-visit",
-    title: "4-Year-Old Well Child Visit",
-    description: "Routine well-child exam with developmental screening and vaccine review",
-    category: "Pediatrics",
-    wordCount: "~380 words",
-    transcript: `Doctor: Hi there! And who's this big kid? Is that Lena?
+Doctor: There are a few options I want to discuss. Given that your ejection fraction is 35% or below and you're symptomatic despite optimal medical therapy, you may be a candidate for advanced therapies. I'd also like to look into whether there are any clinical trials you might be eligible for — there's active research into new treatments for heart failure with reduced ejection fraction, and Houston has several major programs running enrollment right now.
 
-Parent: Say hi, Lena. Yes, she just turned four last week.
+Patient: I'd be open to that. Whatever gives me the best chance.
 
-Doctor: Happy belated birthday, Lena! Are you four now?
+Doctor: I'll have our research coordinator review your profile. We'll get the echo scheduled this week and see you back in two weeks to reassess. Call us before then if your breathing worsens, you gain weight rapidly, or you develop any new chest pain.
 
-Patient (child): Four and a half.
+Patient: Thank you, Dr. Okafor. I appreciate you being thorough.
 
-Doctor: Oh, four and a half — even better! I'm Dr. Park. Can I listen to your heart with my stethoscope? It's not cold, I promise.
-
-Patient (child): Okay.
-
-Doctor: Perfect. So how's everything been going at home? Any concerns?
-
-Parent: Mostly good. She's been healthy. My main question is about her speech — some people say they can't always understand her.
-
-Doctor: That's worth looking at. At four, we expect most strangers to understand about 75 to 80 percent of what a child says. Tell me — is she using full sentences?
-
-Parent: Yes, full sentences, lots of talking. She knows all her letters and can count to 20.
-
-Doctor: Great. Can you tell me your full name, Lena?
-
-Patient (child): Lena Marie Santos.
-
-Doctor: Excellent! And how old are you?
-
-Patient (child): Four and a half.
-
-Doctor: She's communicating very well. The articulation issues you're describing — certain sounds being harder to produce — can be completely normal at this age. Sounds like "r," "l," and "th" often don't fully develop until age five or six. That said, I'd recommend a speech and language screening just to get a baseline. Nothing urgent, but it's a good resource.
-
-Parent: That makes me feel better.
-
-Doctor: Her height is in the 60th percentile, weight in the 55th — perfectly proportionate and on track. Vision screening today was normal. Hearing passed. Her developmental milestone checklist looks great — she's meeting all four-year markers.
-
-Vaccines today: she's due for her DTaP, MMR, varicella, and IPV boosters. These are the last doses of this series until adolescence.
-
-Parent: Any side effects to expect?
-
-Doctor: Possibly a sore arm or low-grade fever for a day or two. Ibuprofen or acetaminophen is fine if needed. If she develops a fever above 104°F or anything that concerns you, call us.
-
-Parent: Got it. Thank you.
-
-Doctor: She's doing wonderfully. We'll see her again at five for her kindergarten checkup.`,
-  },
-  {
-    id: "csssi-diabetic-foot",
-    title: "Diabetic Foot Cellulitis — Hospital Admission",
-    description: "Infectious disease consult for a hospitalized diabetic patient with complicated lower limb skin and soft tissue infection requiring IV antibiotics",
-    category: "Infectious Disease",
-    wordCount: "~380 words",
-    transcript: `Doctor: Ms. Brennan, I'm Dr. Adeyemi from infectious disease. I've been asked to review your left leg. Can you tell me how this started?
-
-Patient: About a week ago I noticed some redness on my left shin. I've had type 2 diabetes for fifteen years and my feet and legs have had problems before. I thought it would settle down but it got much worse. My leg is swollen, hot to the touch, and there's been discharge from a wound on my ankle.
-
-Doctor: How long have you had the ankle wound?
-
-Patient: Maybe three weeks. Started as a small blister. I didn't feel much pain because of my neuropathy.
-
-Doctor: Any fever or chills?
-
-Patient: Yes, I had a temperature of 38.4 this morning and I've been shivering on and off since yesterday.
-
-Doctor: Let me examine you. [Pause] There's significant erythema extending from mid-shin to the foot, marked swelling, warmth, and a 2-centimeter ulcer on the medial malleolus with purulent discharge. I'm probing the wound — I can feel what appears to be deeper soft tissue involvement beyond the skin layer. I'm sending swabs for culture and MRSA screening now. We'll need an MRI to assess the depth of infection and rule out osteomyelitis.
-
-Patient: Could it be in the bone?
-
-Doctor: We need to rule that out — that's why we're doing the MRI today. I'm admitting you and starting IV vancomycin for MRSA coverage, plus IV piperacillin-tazobactam for broader gram-negative cover. We're also getting vascular surgery and the wound care team involved — you'll need bedside debridement of that wound today.
-
-Patient: Am I going to lose my leg?
-
-Doctor: We're going to do everything we can to prevent that. Getting you on IV antibiotics promptly and managing this wound properly is critical. Any drug allergies?
-
-Patient: No allergies. I take metformin 500mg twice daily, lisinopril 5mg, and atorvastatin 20mg.
-
-Doctor: We'll hold the metformin while you're inpatient. Are you currently enrolled in any other research study?
-
-Patient: No.
-
-Doctor: Good. We'll review labs daily and adjust antibiotics based on culture results. Likely five to seven days inpatient depending on MRI findings and your response. Any questions?
-
-Patient: Just — please do whatever it takes. Thank you.`,
-  },
+Doctor: That's what we're here for, Mr. Garza. We'll stay on top of this.`,
+  }
 ];

@@ -51,9 +51,7 @@ function buildParams(profile: PatientProfile): URLSearchParams {
   return params;
 }
 
-export async function fetchAndFilterTrials(profile: PatientProfile): Promise<FetchedTrial[]> {
-  const params = buildParams(profile);
-
+async function fetchStudies(params: URLSearchParams): Promise<CTStudy[]> {
   const res = await fetch(`${CT_BASE}/studies?${params}`, {
     headers: { Accept: "application/json" },
   });
@@ -64,7 +62,18 @@ export async function fetchAndFilterTrials(profile: PatientProfile): Promise<Fet
   }
 
   const data = (await res.json()) as CTApiResponse;
-  const studies = data.studies ?? [];
+  return data.studies ?? [];
+}
+
+export async function fetchAndFilterTrials(profile: PatientProfile): Promise<FetchedTrial[]> {
+  const params = buildParams(profile);
+  let studies = await fetchStudies(params);
+
+  if (studies.length === 0 && params.has("query.term")) {
+    console.log("No results with keywords, retrying without query.term");
+    params.delete("query.term");
+    studies = await fetchStudies(params);
+  }
 
   return studies.map((study: CTStudy) => {
     const id = study.protocolSection.identificationModule.nctId;
