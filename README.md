@@ -22,7 +22,7 @@ NEXT_PUBLIC_API_URL=https://deepscribe-api.aditya-prakash.workers.dev
 4. Start the development server: `npm run dev`
 5. Open your browser and go to `http://localhost:3000` to access the app.
 
-This will automatically query the deployed backend API route on Cloudflare Workers when you submit a transcript, so there is no need to run the backend locally.
+This will automatically query the deployed backend API route on Cloudflare Workers when you submit a transcript, so there is no need to run the backend locally. If you want to run the backend locally, you can use `wrangler dev` from the `api` directory, but keep in mind that you will need to change the frontend API URL to point to your localhost, and will also need to set up an API key from Nvidia (using `wrangler secret put NVIDIA_API_KEY`). I am not including my API key in the repo for security reasons, but you can get your own free API key from [Nvidia's website](https://build.nvidia.com/models).
 
 # Craftsmanship
 
@@ -30,7 +30,7 @@ This will automatically query the deployed backend API route on Cloudflare Worke
 
 When Claude finished the backend integration with Nvidia, it produced a super messy codebase. It had a different file for extracting a patient profile, a different file for building the clinicaltrials.gov query, and a different file for parsing and scoring the results (even though I didn't need scoring). Each file had multiple functions, and there was a lot of back-and-forth between them which didn't really make sense. I found it very difficult to understand the flow of data and logic through the system.
 
-I first refactored this pipeline to be easier to follow. I consolidate everything into two steps. 
+I first refactored this pipeline to be easier to follow. I consolidate everything into two steps at first. 
 1) Extracting conditions from the transcript,
 2) Fetching trials based on the extracted conditions from ClinicalTrials.gov
 
