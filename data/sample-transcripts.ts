@@ -9,10 +9,10 @@ export interface SampleTranscript {
 
 export const sampleTranscripts: SampleTranscript[] = [
   {
-    id: "cap-follow-up",
-    title: "Community-Acquired Pneumonia — Follow-up",
-    description: "Primary care follow-up for a 52-year-old with resolved mild CAP and stage 1 hypertension, with discussion of cardiovascular risk and dietary intervention trial",
-    category: "Infectious Disease",
+    id: "hypertension-management",
+    title: "Hypertension Management with Clinical Trial Discussion",
+    description: "Primary care visit for a 52-year-old with elevated blood pressure discussing lifestyle management and enrollment in a clinical trial studying wild blueberry powder's effects on blood pressure and cardiovascular health",
+    category: "Primary Care",
     wordCount: "~400 words",
     transcript: `Doctor: Mr. Hoffmann, come in. Good to see you. How have you been?
 
